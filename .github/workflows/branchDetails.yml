@@ -1,0 +1,27 @@
+name: Echo branch, author, and commit message
+
+on: [push]
+
+jobs:
+  echo-branch-author-commit:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Echo branch, author, and commit message
+      run: |
+        BRANCH=$(echo "${{ github.ref }}")
+        BRANCH=${BRANCH#refs/heads/}
+        COMMIT_MSG=$(git log --format=%B -n 1 ${{ github.sha }})
+        AUTHOR=${{ github.actor }}
+        echo "Branch: $BRANCH"
+        echo "Author: $AUTHOR"
+        echo "Commit message: $COMMIT_MSG"
+        echo "::set-output name=branch::$BRANCH"
+        echo "::set-output name=author::$AUTHOR"
+        echo "::set-output name=commit-msg::$COMMIT_MSG"
+    - name: Use branch, author, and commit message in subsequent steps
+      run: |
+        echo "Branch name: ${{ steps.echo-branch-author-commit.outputs.branch }}"
+        echo "Author name: ${{ steps.echo-branch-author-commit.outputs.author }}"
+        echo "Commit message: ${{ steps.echo-branch-author-commit.outputs.commit-msg }}"
