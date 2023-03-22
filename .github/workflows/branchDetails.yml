@@ -17,11 +17,3 @@ jobs:
         echo "Branch: $BRANCH"
         echo "Author: $AUTHOR"
         echo "Commit message: $COMMIT_MSG"
-        echo "::set-output name=branch::$BRANCH"
-        echo "::set-output name=author::$AUTHOR"
-        echo "::set-output name=commit-msg::$COMMIT_MSG"
-    - name: Use branch, author, and commit message in subsequent steps
-      run: |
-        echo "Branch name: ${{ steps.echo-branch-author-commit.outputs.branch }}"
-        echo "Author name: ${{ steps.echo-branch-author-commit.outputs.author }}"
-        echo "Commit message: ${{ steps.echo-branch-author-commit.outputs.commit-msg }}"
