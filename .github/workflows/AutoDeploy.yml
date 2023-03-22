@@ -1,0 +1,19 @@
+name: Auto Deployment at Netlify
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  Auto-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Trigger Netlify build hook
+      env:
+        NETLIFY_BUILD_HOOKS: ${{ secrets.NETLIFY_BUILD_HOOKS_AUTO_DEPLOY}}
+      run: |
+        curl -X POST -d {} $NETLIFY_BUILD_HOOKS
